@@ -1,0 +1,134 @@
+
+"use client";
+
+import React, { useState } from "react";
+import { useRouter } from 'next/navigation';
+import { Eye, EyeOff } from "lucide-react";
+import { useApp } from "../../lib/context";
+
+export default function LoginPage() {
+  const { login } = useApp();
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      await login(email, password);
+      // navigate to the dashboard after successful login
+      router.push('/dashboard');
+    } catch (err: any) {
+      setError(err.response?.data?.error || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[radial-gradient(circle_at_20%_40%,rgba(255,255,255,0.08)_0%,transparent_70%)]">
+      <div className="flex w-full max-w-4xl shadow-2xl overflow-hidden animate-fade-in">
+        {/* Left Side - Hero */}
+        <div className="hidden md:flex flex-col justify-center items-center w-1/2 bg-gradient-to-br from-[#5D4C8E] via-[#8B7FB1] to-[#4a3a6e] text-white p-10 relative">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_40%,rgba(255,255,255,0.08)_0%,transparent_70%)] pointer-events-none" />
+          <div className="mb-8">
+            <svg width="64" height="64" viewBox="0 0 20 20" fill="currentColor" className="mx-auto text-white drop-shadow-lg">
+              <path d="M10 2L3 6v5c0 5 7 8 7 8s7-3 7-8V6l-7-4z" />
+            </svg>
+          </div>
+          <h1 className="text-4xl font-extrabold mb-4 tracking-tight drop-shadow-xl">LB Calendar</h1>
+          <p className="text-lg font-medium mb-8 text-white/80 max-w-xs text-center">Organize your life, your team, and your dreams. Built for legends, by legends.</p>
+          <div className="flex flex-col gap-2 mt-8 animate-slide-up">
+            <span className="text-sm font-semibold text-white/70">"Productivity is the key to greatness."</span>
+            <span className="text-xs text-white/50">— LB Calendar Team</span>
+          </div>
+        </div>
+
+        {/* Right Side - Login Form */}
+        <div className="w-full md:w-1/2 bg-white bg-opacity-80 backdrop-blur-xl rounded-tl-4xl rounded-bl-4xl flex flex-col justify-center items-center p-10 relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-[#F3F0F9]/60 to-white/80 pointer-events-none" />
+          <form
+            onSubmit={handleSubmit}
+            className="w-full max-w-md z-10 flex flex-col gap-6 animate-slide-up"
+          >
+            <h2 className="text-3xl font-extrabold text-[#5D4C8E] text-center mb-2 drop-shadow">Sign In</h2>
+            <p className="text-center text-gray-500 mb-4">Welcome back! Please login to your account.</p>
+            {error && <div className="text-red-500 text-center text-sm mb-2 animate-shake">{error}</div>}
+            <div className="flex flex-col gap-3">
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5D4C8E] bg-white/80 shadow-sm transition-all duration-200"
+                required
+              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5D4C8E] bg-white/80 shadow-sm transition-all duration-200 pr-12"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  tabIndex={-1}
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 bg-gradient-to-r from-[#5D4C8E] to-[#8B7FB1] text-white font-bold text-lg shadow-lg hover:scale-105 hover:shadow-2xl transition-transform duration-200 disabled:opacity-60"
+            >
+              {loading ? "Signing In..." : "Login"}
+            </button>
+            <div className="text-center text-sm text-gray-500 mt-2">
+              Don't have an account? <a href="/signup" className="text-[#5D4C8E] font-semibold hover:underline">Sign Up</a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      {/* Animations */}
+      <style jsx>{`
+        .animate-fade-in {
+          animation: fadeIn 1s cubic-bezier(.4,0,.2,1);
+        }
+        .animate-slide-up {
+          animation: slideUp .8s cubic-bezier(.4,0,.2,1);
+        }
+        .animate-shake {
+          animation: shake .4s cubic-bezier(.4,0,.2,1);
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: scale(.98); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(40px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shake {
+          0% { transform: translateX(0); }
+          20% { transform: translateX(-8px); }
+          40% { transform: translateX(8px); }
+          60% { transform: translateX(-8px); }
+          80% { transform: translateX(8px); }
+          100% { transform: translateX(0); }
+        }
+      `}</style>
+    </div>
+  );
+}

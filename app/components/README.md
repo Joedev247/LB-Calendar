@@ -146,3 +146,4 @@ Currently optimized for desktop view. Mobile responsiveness can be added by:
 - [ ] Add animations and transitions
 
 
+

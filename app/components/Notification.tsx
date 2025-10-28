@@ -3,7 +3,7 @@ import React from "react";
 export default function Notification() {
   return (
     <>
-      <div className="flex items-center px-7 pb-4 justify-between mb-3">
+      <div className="flex items-center pb-4 justify-between mb-3">
         <h3 className="text-[15px] font-bold">Notification</h3>
         <a
           href="#"
@@ -13,7 +13,7 @@ export default function Notification() {
         </a>
       </div>
 
-      <div className="bg-gradient-to-br from-[#5D4C8E] via-[#6856A1] to-[#7A69AA] mx-7 p-7 text-white relative  overflow-hidden shadow-sm">
+      <div className="bg-gradient-to-br from-[#5D4C8E] via-[#6856A1] to-[#7A69AA] p-7 text-white relative  overflow-hidden shadow-sm">
         <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16"></div>
         <div className="absolute bottom-0 right-0 w-24 h-24 bg-white/5 rounded-full -mr-12 -mb-12"></div>
         <div className="absolute top-1/2 right-4 w-24 h-24 border-[8px] border-white/10 rounded-full"></div>

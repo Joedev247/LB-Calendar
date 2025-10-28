@@ -1,123 +1,257 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
+import { Plus, Edit, Trash2, Users, Calendar, CheckSquare, Eye } from 'lucide-react';
+import { format } from 'date-fns';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import ProjectModal from '../components/ProjectModal';
+import ProjectDetails from '../components/ProjectDetails';
+import DeleteModal from '../components/DeleteModal';
+import { useApp } from '../../lib/context';
+import { Project } from '../../lib/types/project';
 
-export default function Projects() {
+export default function ProjectsPage() {
+  const { projects, loadProjects, deleteProject } = useApp();
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+  const [isProjectDetailsOpen, setIsProjectDetailsOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [editingProject, setEditingProject] = useState<any>(null);
+  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [projectToDelete, setProjectToDelete] = useState<any>(null);
+  const [filter, setFilter] = useState<'all' | 'active' | 'completed' | 'archived'>('all');
+
+  useEffect(() => {
+    loadProjects();
+  }, []); // Remove loadProjects from dependencies to prevent infinite loop
+
+  const filteredProjects = projects.filter(project => {
+    switch (filter) {
+      case 'active':
+        return project.status === 'active';
+      case 'completed':
+        return project.status === 'completed';
+      case 'archived':
+        return project.status === 'archived';
+      default:
+        return true;
+    }
+  });
+
+  const handleEditProject = (project: any) => {
+    setEditingProject(project);
+    setIsProjectModalOpen(true);
+  };
+
+  const handleDeleteProject = async (project: any) => {
+    setProjectToDelete(project);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDeleteProject = async () => {
+    try {
+      if (projectToDelete) {
+        await deleteProject(projectToDelete.id);
+      }
+    } catch (error) {
+      console.error('Error deleting project:', error);
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'active': return 'text-green-600 bg-green-100';
+      case 'completed': return 'text-blue-600 bg-blue-100';
+      case 'archived': return 'text-gray-600 bg-gray-100';
+      default: return 'text-gray-600 bg-gray-100';
+    }
+  };
+
+  const formatStatus = (status?: string) => {
+    if (!status) return 'Unknown';
+    // replace underscores with spaces and capitalize words
+    return status.replace(/_/g, ' ').split(' ').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+  };
+
+  const safeFormatDate = (dateRaw?: string | null) => {
+    if (!dateRaw) return 'Unknown date';
+    try {
+      const d = new Date(dateRaw);
+      if (!isNaN(d.getTime())) return format(d, 'MMM d, yyyy');
+    } catch (e) {
+      // fallthrough
+    }
+    return 'Unknown date';
+  };
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[#5f4b8b] to-[#4a3a6e] p-5 overflow-hidden">
+    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[#5f4b8b] to-[#4a3a6e] overflow-hidden">
       {/* Main Container */}
-      <div className="flex w-full max-h-[calc(100vh-2.5rem)]">
+      <div className="flex w-full max-h-screen">
         {/* Sidebar Component */}
         <Sidebar />
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col bg-white overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.1)]">
+        <div className="flex-1 flex flex-col rounded-tl-4xl rounded-bl-4xl bg-white overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.1)]">
           {/* Header Component */}
           <Header />
 
           {/* Content Container */}
           <div className="flex-1 p-8 overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex items-center justify-between mb-6">
               <h1 className="text-2xl font-bold text-[#2D2D2D]">Projects</h1>
-              <button className="bg-gradient-to-r from-[#5f4b8b] to-[#4a3a6e] text-white px-6 py-2.5 text-sm font-medium hover:shadow-lg transition-shadow duration-300">
-                + New Project
+              <button
+                onClick={() => {
+                  setEditingProject(null);
+                  setIsProjectModalOpen(true);
+                }}
+                className="flex items-center gap-2 px-4 py-2 bg-[#5D4C8E] text-white rounded-lg hover:bg-[#4a3a6e] transition-colors"
+              >
+                <Plus className="w-4 h-4" />
+                Create Project
               </button>
             </div>
 
-            {/* Projects Grid */}
-            <div className="grid grid-cols-3 gap-6">
+            {/* Filter Tabs */}
+            <div className="flex gap-1 mb-6">
               {[
-                {
-                  name: "Project Alpha",
-                  status: "In Progress",
-                  progress: 75,
-                  dueDate: "Nov 15, 2025",
-                  team: 4
-                },
-                {
-                  name: "Project Beta",
-                  status: "Planning",
-                  progress: 25,
-                  dueDate: "Dec 1, 2025",
-                  team: 6
-                },
-                {
-                  name: "Project Gamma",
-                  status: "Review",
-                  progress: 90,
-                  dueDate: "Oct 30, 2025",
-                  team: 3
-                },
-                {
-                  name: "Project Delta",
-                  status: "On Hold",
-                  progress: 50,
-                  dueDate: "Nov 20, 2025",
-                  team: 5
-                },
-                {
-                  name: "Project Epsilon",
-                  status: "Planning",
-                  progress: 10,
-                  dueDate: "Dec 15, 2025",
-                  team: 4
-                },
-                {
-                  name: "Project Zeta",
-                  status: "In Progress",
-                  progress: 60,
-                  dueDate: "Nov 25, 2025",
-                  team: 7
-                }
-              ].map((project, i) => (
-                <div key={i} className="bg-gradient-to-br from-white to-[#F3F0F9] p-6 border border-[#E9E5F0] shadow-sm hover:shadow-lg transition-all duration-300">
-                  <div className="flex justify-between items-start mb-4">
-                    <h3 className="font-semibold text-[#2D2D2D]">{project.name}</h3>
-                    <span className={`text-xs px-3 py-1.5 rounded-full ${
-                      project.status === "In Progress" ? "bg-[#5D4C8E] text-white" :
-                      project.status === "Review" ? "bg-[#B7AED6] text-[#4a3a6e]" :
-                      project.status === "Planning" ? "bg-[#F3F0F9] text-[#5D4C8E]" :
-                      "bg-[#E9E5F0] text-[#8B7FB1]"
-                    }`}>
-                      {project.status}
-                    </span>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between text-sm text-[#4A4A4A] mb-1">
-                        <span>Progress</span>
-                        <span className="font-medium">{project.progress}%</span>
-                      </div>
-                      <div className="w-full h-2.5 bg-[#F3F0F9] rounded-full overflow-hidden">
-                        <div 
-                          className={`h-full rounded-full transition-all duration-500 ${
-                            project.progress >= 80 ? "bg-gradient-to-r from-[#5f4b8b] to-[#7B68AD]" :
-                            project.progress >= 50 ? "bg-gradient-to-r from-[#7B68AD] to-[#9985C7]" :
-                            "bg-gradient-to-r from-[#9985C7] to-[#B7AED6]"
-                          }`}
-                          style={{ width: `${project.progress}%` }}
-                        ></div>
-                      </div>
-                    </div>
-
-                    <div className="flex justify-between text-sm">
-                      <span className="text-[#8B7FB1]">Due Date</span>
-                      <span className="text-[#2D2D2D] font-medium">{project.dueDate}</span>
-                    </div>
-
-                    <div className="flex justify-between text-sm">
-                      <span className="text-[#8B7FB1]">Team Size</span>
-                      <span className="text-[#2D2D2D] font-medium">{project.team} members</span>
-                    </div>
-                  </div>
-                </div>
+                { key: 'all', label: 'All Projects' },
+                { key: 'active', label: 'Active' },
+                { key: 'completed', label: 'Completed' },
+                { key: 'archived', label: 'Archived' }
+              ].map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => setFilter(tab.key as any)}
+                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                    filter === tab.key
+                      ? 'bg-[#5D4C8E] text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  {tab.label}
+                </button>
               ))}
+            </div>
+
+            {/* Projects Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredProjects.length === 0 ? (
+                <div className="col-span-full text-center py-12 text-gray-500">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#5D4C8E' }}>
+                    <Plus className="w-8 h-8 text-white" />
+                  </div>
+                  <p className="text-lg font-medium">No projects found</p>
+                  <p className="text-sm">Create your first project to get started</p>
+                </div>
+              ) : (
+                filteredProjects.map((project) => (
+                  <div key={project.id} className="bg-white border border-[#E9E5F0] rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div 
+                          className="w-4 h-4 rounded-full"
+                          style={{ backgroundColor: project.color }}
+                        />
+                        <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => {
+                            setSelectedProject(project);
+                            setIsProjectDetailsOpen(true);
+                          }}
+                          className="p-1 text-gray-400 hover:text-[#5D4C8E] hover:bg-gray-100 rounded transition-colors"
+                          title="View Project Details"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleEditProject(project)}
+                          className="p-1 text-gray-400 hover:text-[#5D4C8E] hover:bg-gray-100 rounded transition-colors"
+                          title="Edit Project"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteProject(project)}
+                          className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                          title="Delete Project"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {project.description && (
+                      <p className="text-gray-600 text-sm mb-4 line-clamp-2">{project.description}</p>
+                    )}
+
+                    <div className="flex items-center gap-4 mb-4">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(project.status)}`}>
+                        {formatStatus(project.status)}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        Created {safeFormatDate((project as any).created_at)}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between text-sm text-gray-500">
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-1">
+                          <Users className="w-4 h-4" />
+                          <span>{project.member_count || 0}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Calendar className="w-4 h-4" />
+                          <span>{project.event_count || 0}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <CheckSquare className="w-4 h-4" />
+                          <span>{project.task_count || 0}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Project Modal */}
+      <ProjectModal
+        isOpen={isProjectModalOpen}
+        onClose={() => {
+          setIsProjectModalOpen(false);
+          setEditingProject(null);
+        }}
+        project={editingProject}
+      />
+
+      {/* Project Details Modal */}
+      <ProjectDetails
+        isOpen={isProjectDetailsOpen}
+        onClose={() => {
+          setIsProjectDetailsOpen(false);
+          setSelectedProject(null);
+        }}
+        project={selectedProject}
+      />
+
+      {/* Delete Confirmation Modal */}
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => {
+          setIsDeleteModalOpen(false);
+          setProjectToDelete(null);
+        }}
+        onConfirm={confirmDeleteProject}
+        title="Delete Project"
+        message={`Are you sure you want to delete "${projectToDelete?.name}"? This will also delete all associated events and tasks. This action cannot be undone.`}
+        itemType="project"
+      />
     </div>
   );
 }

@@ -6,7 +6,7 @@ export default function TeamChat() {
   return (
     <div className="flex-1 flex flex-col h-[calc(100vh-8.5rem)]">
       {/* Chat Header */}
-      <div className="shrink-0 px-6 py-4 border-b border-[#E9E5F0] bg-white">
+      <div className="shrink-0 py-4 border-b border-[#E9E5F0] mx-7 bg-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#5f4b8b] to-[#4a3a6e] flex items-center justify-center text-white font-medium">
@@ -40,7 +40,7 @@ export default function TeamChat() {
                 ) : null
               ))}
             </div>
-            <button className="bg-gradient-to-r from-[#5f4b8b] to-[#4a3a6e] text-white text-sm px-4 py-1 font-medium hover:shadow-lg transition-shadow duration-300">
+            <button className="bg-gradient-to-r from-[#5f4b8b] to-[#4a3a6e] text-white text-sm px-4 py-1 rounded font-medium hover:shadow-lg transition-shadow duration-300">
               Invite
             </button>
           </div>
@@ -129,12 +129,12 @@ export default function TeamChat() {
               className="w-full px-5 py-3 bg-[#F8F7FA] text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5D4C8E]/20 placeholder:text-[#8B7FB1]"
             />
             <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-              <button className="p-1.5 text-[#8B7FB1] hover:text-[#5D4C8E] rounded-lg transition-colors">
+              <button className="p-1.5 text-[#8B7FB1] hover:text-[#5D4C8E]  transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </button>
-              <button className="p-1.5 text-[#8B7FB1] hover:text-[#5D4C8E] rounded-lg transition-colors">
+              <button className="p-1.5 text-[#8B7FB1] hover:text-[#5D4C8E]  transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
