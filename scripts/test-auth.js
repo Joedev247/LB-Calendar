@@ -1,5 +1,5 @@
 (async () => {
-  const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+  const API = process.env.NEXT_PUBLIC_API_URL || 'https://lb-calendar-backend.onrender.com/api';
   const ts = Date.now();
   const email = `test+${ts}@example.com`;
   const password = 'Password123!';
