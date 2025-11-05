@@ -171,6 +171,8 @@ function appReducer(state: AppState, action: AppAction): AppState {
 interface AppContextType extends AppState {
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, name: string) => Promise<void>;
+  loginWithOAuth: () => Promise<void>;
+  handleOAuthCallback: (token: string, email: string) => Promise<void>;
   logout: () => void;
   loadEvents: (params?: any) => Promise<void>;
   createEvent: (data: any) => Promise<void>;
@@ -248,6 +250,59 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       toast.success('Registration successful!');
     } catch (error: any) {
       const message = error.response?.data?.error || 'Registration failed';
+      dispatch({ type: 'SET_ERROR', payload: message });
+      toast.error(message);
+      throw error;
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
+  };
+
+  const loginWithOAuth = async () => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const response = await authAPI.getOAuthAuthorizeUrl();
+      const { authUrl } = response.data;
+      
+      // Redirect to OAuth provider
+      window.location.href = authUrl;
+    } catch (error: any) {
+      const message = error.response?.data?.error || 'Failed to initiate OAuth login';
+      dispatch({ type: 'SET_ERROR', payload: message });
+      toast.error(message);
+      dispatch({ type: 'SET_LOADING', payload: false });
+      throw error;
+    }
+  };
+
+  const handleOAuthCallback = async (token: string, email: string) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      
+      // Store token
+      localStorage.setItem('token', token);
+      
+      // Fetch user info using the token
+      try {
+        const response = await authAPI.getMe();
+        const user = response.data;
+        localStorage.setItem('user', JSON.stringify(user));
+        dispatch({ type: 'SET_USER', payload: user });
+        toast.success('Login successful!');
+      } catch (error: any) {
+        // If getMe fails, create a minimal user object from email
+        const user = {
+          id: 0,
+          email: email,
+          name: email.split('@')[0],
+          role: 'user',
+        };
+        localStorage.setItem('user', JSON.stringify(user));
+        dispatch({ type: 'SET_USER', payload: user });
+        toast.success('Login successful!');
+      }
+    } catch (error: any) {
+      const message = error.response?.data?.error || 'Failed to complete OAuth login';
       dispatch({ type: 'SET_ERROR', payload: message });
       toast.error(message);
       throw error;
@@ -446,6 +501,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     ...state,
     login,
     register,
+    loginWithOAuth,
+    handleOAuthCallback,
     logout,
     loadEvents,
     createEvent,

@@ -45,6 +45,7 @@ export const authAPI = {
   register: (email: string, password: string, name: string) =>
     api.post('/auth/register', { email, password, name }),
   getMe: () => api.get('/auth/me'),
+  getOAuthAuthorizeUrl: () => api.get('/auth/oauth/authorize'),
 };
 
 // Events API

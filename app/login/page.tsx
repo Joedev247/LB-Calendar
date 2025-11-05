@@ -7,11 +7,12 @@ import { Eye, EyeOff } from "lucide-react";
 import { useApp } from "../../lib/context";
 
 export default function LoginPage() {
-  const { login } = useApp();
+  const { login, loginWithOAuth } = useApp();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [oauthLoading, setOAuthLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -27,6 +28,18 @@ export default function LoginPage() {
       setError(err.response?.data?.error || "Login failed");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleOAuthLogin = async () => {
+    setOAuthLoading(true);
+    setError("");
+    try {
+      await loginWithOAuth();
+      // User will be redirected to OAuth provider, so no need to navigate
+    } catch (err: any) {
+      setError(err.response?.data?.error || "OAuth login failed");
+      setOAuthLoading(false);
     }
   };
 
@@ -89,11 +102,46 @@ export default function LoginPage() {
             </div>
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || oauthLoading}
               className="w-full py-3 bg-gradient-to-r from-[#5D4C8E] to-[#8B7FB1] text-white font-bold text-lg shadow-lg hover:scale-105 hover:shadow-2xl transition-transform duration-200 disabled:opacity-60"
             >
               {loading ? "Signing In..." : "Login"}
             </button>
+            
+            {/* Divider */}
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white/80 text-gray-500">Or continue with</span>
+              </div>
+            </div>
+
+            {/* OAuth Button */}
+            <button
+              type="button"
+              onClick={handleOAuthLogin}
+              disabled={loading || oauthLoading}
+              className="w-full py-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold text-lg shadow-md hover:bg-gray-50 hover:border-[#5D4C8E] hover:text-[#5D4C8E] transition-all duration-200 disabled:opacity-60 flex items-center justify-center gap-3"
+            >
+              {oauthLoading ? (
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-700"></div>
+                  <span>Connecting...</span>
+                </>
+              ) : (
+                <>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                  <span>Sign in with Looping Binary</span>
+                </>
+              )}
+            </button>
+
             <div className="text-center text-sm text-gray-500 mt-2">
               Don't have an account? <a href="/signup" className="text-[#5D4C8E] font-semibold hover:underline">Sign Up</a>
             </div>
