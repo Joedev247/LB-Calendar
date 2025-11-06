@@ -50,6 +50,8 @@ export default function TeamChatPage() {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=00bf63&color=fff&size=40&bold=true`;
   };
 
+  const [showMembersList, setShowMembersList] = useState(false);
+
   return (
     <div className="fixed inset-0 flex bg-gradient-to-b from-[#00bf63] to-[#008c47] overflow-hidden animate-page-fade-in">
       {/* Main Container */}
@@ -58,17 +60,35 @@ export default function TeamChatPage() {
         <Sidebar />
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col rounded-tl-4xl rounded-bl-4xl bg-white overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.1)] h-full">
+        <div className="flex-1 flex flex-col rounded-tl-4xl lg:rounded-tl-4xl rounded-bl-4xl lg:rounded-bl-4xl bg-white overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.1)] h-full">
           {/* Header Component */}
           <div className="flex-shrink-0">
             <Header />
           </div>
 
           {/* Content Container */}
-          <div className="flex-1 flex overflow-hidden min-h-0">
-            {/* Chat List Sidebar */}
-            <div className="w-72 bg-white border-r border-[#E9E5F0] flex flex-col min-h-0 h-full">
-              <div className="p-5 border-b border-[#E9E5F0] flex-shrink-0">
+          <div className="flex-1 flex overflow-hidden min-h-0 relative">
+            {/* Chat List Sidebar - Hidden on mobile, toggleable */}
+            <div className={`
+              absolute lg:relative inset-y-0 left-0 z-30
+              w-72 bg-white border-r border-[#E9E5F0] 
+              flex flex-col min-h-0 h-full
+              transform transition-transform duration-300 ease-in-out
+              ${showMembersList ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+              shadow-xl lg:shadow-none
+            `}>
+              <div className="p-4 lg:p-5 border-b border-[#E9E5F0] flex-shrink-0">
+                <div className="flex items-center gap-2 mb-3 lg:hidden">
+                  <button
+                    onClick={() => setShowMembersList(false)}
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                  <span className="font-semibold text-gray-700">Team Members</span>
+                </div>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#33d78f]" />
                   <input
@@ -145,7 +165,15 @@ export default function TeamChatPage() {
             </div>
 
             {/* Main Chat Area */}
-            <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+            <div className="flex-1 flex flex-col min-h-0 overflow-hidden relative">
+              {/* Mobile Members Toggle Button */}
+              <button
+                onClick={() => setShowMembersList(true)}
+                className="lg:hidden absolute top-4 right-4 z-20 p-2 bg-white rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+                aria-label="Show team members"
+              >
+                <Users className="w-5 h-5 text-gray-600" />
+              </button>
               <TeamChat />
             </div>
           </div>

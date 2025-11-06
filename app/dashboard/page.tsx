@@ -55,15 +55,15 @@ export default function Dashboard() {
           <Header />
 
           {/* Content Container */}
-          <div className="flex-1 p-8 overflow-y-auto">
-            <div className="flex items-center justify-between mb-6">
-              <h1 className="text-2xl font-bold text-[#2D2D2D]">
+          <div className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <h1 className="text-xl sm:text-2xl font-bold text-[#2D2D2D]">
                 Welcome back, {user?.name || 'User'}!
               </h1>
-              <div className="flex gap-2">
+              <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0">
                 <button
                   onClick={() => setActiveTab('overview')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                     activeTab === 'overview'
                       ? 'bg-[#00bf63] text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -73,7 +73,7 @@ export default function Dashboard() {
                 </button>
                 <button
                   onClick={() => setActiveTab('calendar')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                     activeTab === 'calendar'
                       ? 'bg-[#00bf63] text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -83,7 +83,7 @@ export default function Dashboard() {
                 </button>
                 <button
                   onClick={() => setActiveTab('tasks')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                     activeTab === 'tasks'
                       ? 'bg-[#00bf63] text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -97,7 +97,7 @@ export default function Dashboard() {
             {activeTab === 'overview' && (
               <>
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
                   <div className="bg-gradient-to-br from-[#66e1ab] to-[#33d78f] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 animate-card-fade-in" style={{ animationDelay: '0.1s' }}>
                     <div className="flex items-center justify-between">
                       <div>
@@ -144,7 +144,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Additional Stats Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
                   <div className="bg-gradient-to-br from-[#4ECDC4] to-[#44A08D] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 animate-card-fade-in" style={{ animationDelay: '0.5s' }}>
                     <div className="flex items-center justify-between">
                       <div>
@@ -169,7 +169,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Main Content Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
                   {/* Calendar Widget */}
                   <div className="bg-white border border-[#E9E5F0] rounded-lg shadow-sm">
                     <div className="p-6 border-b border-[#E9E5F0]">
@@ -208,9 +208,9 @@ export default function Dashboard() {
                 </div>
 
                 {/* Quick Actions */}
-                <div className="mt-8 bg-gradient-to-br from-[#F3F0F9] to-white p-6 rounded-lg border border-[#E9E5F0] shadow-sm">
-                  <h3 className="text-lg font-semibold text-[#00bf63] mb-4">Quick Actions</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="mt-6 sm:mt-8 bg-gradient-to-br from-[#F3F0F9] to-white p-4 sm:p-6 rounded-lg border border-[#E9E5F0] shadow-sm">
+                  <h3 className="text-base sm:text-lg font-semibold text-[#00bf63] mb-3 sm:mb-4">Quick Actions</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                     <button
                       onClick={() => setIsProjectModalOpen(true)}
                       className="flex items-center gap-3 p-4 text-left bg-white hover:bg-[#00bf63] hover:text-white transition-all duration-300 rounded-lg shadow-sm "

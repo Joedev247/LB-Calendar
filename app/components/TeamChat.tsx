@@ -408,17 +408,17 @@ export default function TeamChat() {
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden min-h-0">
       {/* Chat Header */}
-      <div className="flex-shrink-0 py-3 px-6 border-b border-[#E9E5F0] bg-white">
+      <div className="flex-shrink-0 py-3 px-4 sm:px-6 border-b border-[#E9E5F0] bg-white">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#00bf63] to-[#008c47] flex items-center justify-center text-white font-medium">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-[#00bf63] to-[#008c47] flex items-center justify-center text-white font-medium text-sm sm:text-base">
               TC
             </div>
             <div>
-              <h3 className="text-[15px] font-bold text-[#2D2D2D]">Team Chat</h3>
+              <h3 className="text-sm sm:text-[15px] font-bold text-[#2D2D2D]">Team Chat</h3>
               <div className="flex items-center gap-2 mt-0.5">
-                <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                <span className="text-xs text-[#33d78f]">
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-green-500"></div>
+                <span className="text-[10px] sm:text-xs text-[#33d78f]">
                   {messages.length > 0 ? `${messages.length} messages` : 'No messages yet'}
                 </span>
               </div>
@@ -428,8 +428,8 @@ export default function TeamChat() {
       </div>
 
       {/* Chat Messages */}
-      <div className="flex-1 bg-[#F8F7FA] px-4 pt-3 overflow-y-auto overflow-x-hidden min-h-0">
-        <div className="max-w-3xl mx-auto space-y-4">
+      <div className="flex-1 bg-[#F8F7FA] px-3 sm:px-4 pt-3 overflow-y-auto overflow-x-hidden min-h-0">
+        <div className="max-w-3xl mx-auto space-y-3 sm:space-y-4">
           {Object.keys(messageGroups).length === 0 ? (
             <div className="text-center py-8">
               <p className="text-gray-400 text-lg">No messages yet</p>
@@ -462,34 +462,34 @@ export default function TeamChat() {
                           <img
                             src={getUserAvatar(msg)}
                             alt={msg.user_name || 'User'}
-                            className="w-10 h-10 rounded-full flex-shrink-0"
+                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex-shrink-0"
                           />
                         ) : (
-                          <div className="w-10 h-10 flex-shrink-0"></div>
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0"></div>
                         )}
-                        <div className={`flex-1 ${isOwn ? 'flex flex-col items-end' : ''}`}>
+                        <div className={`flex-1 min-w-0 ${isOwn ? 'flex flex-col items-end' : ''}`}>
                           {showAvatar && (
-                            <div className={`flex items-center gap-2 mb-1 ${isOwn ? 'flex-row-reverse' : ''}`}>
-                              <span className="font-medium text-[#2D2D2D] text-sm">
+                            <div className={`flex items-center gap-1.5 sm:gap-2 mb-1 ${isOwn ? 'flex-row-reverse' : ''}`}>
+                              <span className="font-medium text-[#2D2D2D] text-xs sm:text-sm truncate max-w-[150px] sm:max-w-none">
                                 {msg.user_name || msg.user_email || 'Unknown User'}
                               </span>
                               {msg.department && (
-                                <span className="text-xs text-gray-500">• {msg.department}</span>
+                                <span className="text-[10px] sm:text-xs text-gray-500 hidden sm:inline">• {msg.department}</span>
                               )}
-                              <span className="text-xs text-[#33d78f]">
+                              <span className="text-[10px] sm:text-xs text-[#33d78f] whitespace-nowrap">
                                 {formatDistanceToNow(new Date(msg.createdAt), { addSuffix: true })}
                               </span>
                             </div>
                           )}
                           <div className={`flex items-start gap-2 ${isOwn ? 'flex-row-reverse' : ''}`}>
                             <div
-                              className={`inline-block rounded-2xl px-5 py-3 text-sm shadow-sm max-w-sm cursor-pointer ${
+                              className={`inline-block rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 text-sm shadow-sm max-w-[85vw] sm:max-w-sm cursor-pointer ${
                                 isOwn
                                   ? 'bg-gradient-to-r from-[#00bf63] to-[#008c47] text-white rounded-tr-none'
                                   : 'bg-white text-[#4A4A4A] rounded-tl-none'
                               }`}
                               onContextMenu={(e) => handleMessageRightClick(e, msg.id)}
-                              title="Right-click to add reaction"
+                              title="Long press to add reaction"
                             >
                               {msg.message_type === 'image' && msg.file_url ? (
                                 <div className="space-y-2">
@@ -582,15 +582,15 @@ export default function TeamChat() {
       )}
 
       {/* Chat Input */}
-      <div className="shrink-0 bg-white px-4 py-3 border-t border-[#E9E5F0]">
+      <div className="shrink-0 bg-white px-3 sm:px-4 py-2.5 sm:py-3 border-t border-[#E9E5F0] safe-area-bottom">
         {/* Image Preview */}
         {imagePreview && (
-          <div className="mb-3 relative inline-block">
+          <div className="mb-2 sm:mb-3 relative inline-block">
             <div className="relative">
               <img
                 src={imagePreview}
                 alt="Preview"
-                className="max-w-xs max-h-48 rounded-lg object-cover"
+                className="max-w-[200px] sm:max-w-xs max-h-40 sm:max-h-48 rounded-lg object-cover"
               />
               <button
                 onClick={handleRemoveImage}
@@ -602,18 +602,18 @@ export default function TeamChat() {
           </div>
         )}
 
-        <form onSubmit={handleSendMessage} className="flex items-center gap-3">
-          <div className="relative">
+        <form onSubmit={handleSendMessage} className="flex items-end gap-2 sm:gap-3">
+          <div className="relative flex-shrink-0">
             <button
               ref={emojiButtonRef}
               type="button"
               onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-              className={`p-2.5 text-[#33d78f] hover:text-[#00bf63] hover:bg-[#F3F0F9] rounded-xl transition-colors ${
+              className={`p-2 sm:p-2.5 text-[#33d78f] hover:text-[#00bf63] hover:bg-[#F3F0F9] rounded-xl transition-colors ${
                 showEmojiPicker ? 'bg-[#F3F0F9] text-[#00bf63]' : ''
               }`}
               title="Add emoji"
             >
-              <Smile className="w-5 h-5" />
+              <Smile className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
             {showEmojiPicker && (
               <EmojiPicker
@@ -623,7 +623,7 @@ export default function TeamChat() {
             )}
           </div>
 
-          <div className="flex-1 relative">
+          <div className="flex-1 relative min-w-0">
             <input
               type="text"
               value={messageInput}
@@ -635,7 +635,7 @@ export default function TeamChat() {
                 }
               }}
               placeholder="Type your message..."
-              className="w-full px-5 py-3 pr-12 bg-[#F8F7FA] text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00bf63]/20 placeholder:text-[#33d78f]"
+              className="w-full px-4 sm:px-5 py-2.5 sm:py-3 pr-10 sm:pr-12 bg-[#F8F7FA] text-sm sm:text-base rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00bf63]/20 placeholder:text-[#33d78f]"
               disabled={isSending}
             />
             <input
@@ -648,23 +648,23 @@ export default function TeamChat() {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-[#33d78f] hover:text-[#00bf63] transition-colors"
+              className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 p-1 sm:p-1.5 text-[#33d78f] hover:text-[#00bf63] transition-colors"
               title="Attach image"
             >
-              <ImageIcon className="w-5 h-5" />
+              <ImageIcon className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
 
           <button
             type="submit"
             disabled={(!messageInput.trim() && !selectedImage) || isSending}
-            className="p-2.5 bg-gradient-to-r from-[#00bf63] to-[#008c47] text-white rounded-full hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-2 sm:p-2.5 bg-gradient-to-r from-[#00bf63] to-[#008c47] text-white rounded-full hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
             title="Send message"
           >
             {isSending ? (
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+              <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-white"></div>
             ) : (
-              <Send className="w-5 h-5" />
+              <Send className="w-4 h-4 sm:w-5 sm:h-5" />
             )}
           </button>
         </form>

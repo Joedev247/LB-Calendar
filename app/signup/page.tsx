@@ -185,16 +185,16 @@ export default function SignupPage() {
       </div>
 
       {/* Right Side - Signup Form (Full Height) */}
-      <div className="w-full lg:w-1/1 rounded-tl-4xl rounded-bl-4xl bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col justify-center items-center p-4 lg:p-8 relative h-screen overflow-hidden animate-slide-in-right">
-        <div className="w-full max-w-md flex flex-col justify-center h-full py-25">
-          <div className="mb-3 lg:mb-4 animate-fade-in-up">
-            <h2 className="flex items-center justify-center text-xl lg:text-3xl font-extrabold text-gray-900 mb-1">Create Account</h2>
-            <p className="flex items-center justify-center text-gray-600 text-xs lg:text-sm">Join thousands of professionals already using LB Calendar</p>
+      <div className="w-full lg:w-1/2 rounded-tl-4xl lg:rounded-tl-4xl rounded-bl-4xl lg:rounded-bl-4xl bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col justify-center items-center p-4 sm:p-6 lg:p-8 relative min-h-screen lg:h-screen overflow-y-auto animate-slide-in-right">
+        <div className="w-full max-w-md flex flex-col justify-center min-h-full py-8 sm:py-12 lg:py-25">
+          <div className="mb-6 lg:mb-4 animate-fade-in-up">
+            <h2 className="flex items-center justify-center text-2xl sm:text-3xl lg:text-3xl font-extrabold text-gray-900 mb-2">Create Account</h2>
+            <p className="flex items-center justify-center text-gray-600 text-sm lg:text-sm">Join thousands of professionals already using LB Calendar</p>
           </div>
 
           <form
             onSubmit={handleSubmit}
-            className="space-y-2.5 flex-1 flex flex-col justify-center animate-fade-in-up-delay"
+            className="space-y-4 flex-1 flex flex-col justify-center animate-fade-in-up-delay w-full"
           >
             {error && (
               <div className="p-2 bg-red-50 border border-red-200 text-red-600 text-xs animate-shake mb-2">
@@ -202,17 +202,17 @@ export default function SignupPage() {
               </div>
             )}
             
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div>
                 <input
                   type="text"
                   placeholder="Full Name"
                   value={name}
                   onChange={e => setName(e.target.value)}
-                  className="w-full px-3 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00bf63] focus:border-transparent bg-white shadow-sm transition-all duration-200 text-sm"
+                  className="w-full px-4 py-3.5 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00bf63] focus:border-transparent bg-white shadow-sm transition-all duration-200 text-base rounded-lg"
                   required
                 />
-                {fieldErrors.name && <div className="text-red-500 text-xs mt-0.5 px-1">{fieldErrors.name}</div>}
+                {fieldErrors.name && <div className="text-red-500 text-xs mt-1 px-1">{fieldErrors.name}</div>}
               </div>
               
               <div>
@@ -221,17 +221,17 @@ export default function SignupPage() {
                   placeholder="Email Address"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  className="w-full px-3 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00bf63] focus:border-transparent bg-white shadow-sm transition-all duration-200 text-sm"
+                  className="w-full px-4 py-3.5 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00bf63] focus:border-transparent bg-white shadow-sm transition-all duration-200 text-base rounded-lg"
                   required
                 />
-                {fieldErrors.email && <div className="text-red-500 text-xs mt-0.5 px-1">{fieldErrors.email}</div>}
+                {fieldErrors.email && <div className="text-red-500 text-xs mt-1 px-1">{fieldErrors.email}</div>}
               </div>
 
               <div>
                 <select
                   value={department}
                   onChange={e => setDepartment(e.target.value)}
-                  className="w-full px-3 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00bf63] focus:border-transparent bg-white shadow-sm transition-all duration-200 text-sm"
+                  className="w-full px-4 py-3.5 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00bf63] focus:border-transparent bg-white shadow-sm transition-all duration-200 text-base rounded-lg"
                   required
                 >
                   {departments.map((dept) => (
@@ -250,19 +250,19 @@ export default function SignupPage() {
                     placeholder="Password"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
-                    className="w-full px-3 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00bf63] focus:border-transparent bg-white shadow-sm transition-all duration-200 pr-10 text-sm"
+                    className="w-full px-4 py-3.5 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00bf63] focus:border-transparent bg-white shadow-sm transition-all duration-200 pr-12 text-base rounded-lg"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1"
                     tabIndex={-1}
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 </div>
-                {fieldErrors.password && <div className="text-red-500 text-xs mt-0.5 px-1">{fieldErrors.password}</div>}
+                {fieldErrors.password && <div className="text-red-500 text-xs mt-1 px-1">{fieldErrors.password}</div>}
               </div>
               
               <div>
@@ -272,26 +272,26 @@ export default function SignupPage() {
                     placeholder="Confirm Password"
                     value={confirmPassword}
                     onChange={e => setConfirmPassword(e.target.value)}
-                    className="w-full px-3 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00bf63] focus:border-transparent bg-white shadow-sm transition-all duration-200 pr-10 text-sm"
+                    className="w-full px-4 py-3.5 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00bf63] focus:border-transparent bg-white shadow-sm transition-all duration-200 pr-12 text-base rounded-lg"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1"
                     tabIndex={-1}
                   >
-                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 </div>
-                {fieldErrors.confirm && <div className="text-red-500 text-xs mt-0.5 px-1">{fieldErrors.confirm}</div>}
+                {fieldErrors.confirm && <div className="text-red-500 text-xs mt-1 px-1">{fieldErrors.confirm}</div>}
               </div>
             </div>
             
             <button
               type="submit"
               disabled={loading || oauthLoading}
-              className="w-full py-2 bg-gradient-to-r from-[#00bf63] to-[#00a655] text-white font-semibold text-sm shadow-md hover:shadow-lg hover:scale-[1.01] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+              className="w-full py-3.5 bg-gradient-to-r from-[#00bf63] to-[#00a655] text-white font-semibold text-base shadow-md hover:shadow-lg hover:scale-[1.01] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed mt-2 rounded-lg"
             >
               {loading ? "Creating Account..." : "Create Account"}
             </button>

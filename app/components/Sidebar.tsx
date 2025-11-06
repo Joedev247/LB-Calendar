@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useApp } from '../../lib/context';
+import { useMobileNav } from '../../lib/mobileNavContext';
 import { 
   LayoutDashboard, 
   Calendar, 
@@ -14,12 +15,14 @@ import {
   MessageSquare, 
   Settings,
   LogOut,
-  Users
+  Users,
+  X
 } from 'lucide-react';
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { logout, user } = useApp();
+  const { isMobileMenuOpen, closeMobileMenu } = useMobileNav();
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -33,22 +36,62 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-[230px] flex flex-col py-6 text-white bg-gradient-to-b from-[#00bf63] to-[#008c47]">
-      {/* Logo */}
-      <div className="mb-10 flex items-center justify-center">
-        <div className="relative w-50 h-20 flex-shrink-0 bg-black/30 backdrop-blur-sm rounded-lg px-7 shadow-2xl">
-          <Image 
-            src="/logo.png" 
-            alt="LB Logo" 
-            fill
-            className="object-contain p-3"
-            priority
-          />
+    <>
+      {/* Mobile Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity duration-300"
+          onClick={closeMobileMenu}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`
+        fixed lg:static inset-y-0 left-0 z-50
+        w-[280px] lg:w-[230px] 
+        flex flex-col h-screen py-5 lg:py-4 text-white 
+        bg-gradient-to-b from-[#00bf63] to-[#008c47]
+        transform transition-transform duration-300 ease-in-out
+        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        shadow-2xl lg:shadow-none
+      `}>
+        {/* Mobile Close Button */}
+        <div className="lg:hidden flex items-center justify-between px-5 mb-15">
+          <div className="relative w-45 h-16 flex-shrink-0 bg-black/30 backdrop-blur-sm rounded-lg px-5 shadow-2xl">
+            <Image 
+              src="/logo.png" 
+              alt="LB Logo" 
+              fill
+              sizes="128px"
+              className="object-contain p-2"
+              priority
+            />
+          </div>
+          <button
+            onClick={closeMobileMenu}
+            className="p-2 rounded-lg hover:bg-white/10 transition-colors"
+            aria-label="Close menu"
+          >
+            <X className="w-5 h-5 text-white" />
+          </button>
         </div>
-      </div>
+
+        {/* Logo - Desktop */}
+        <div className="hidden lg:flex mb-10 lg:mb-6 items-center justify-center flex-shrink-0">
+          <div className="relative w-40 h-16 flex-shrink-0 bg-black/30 backdrop-blur-sm rounded-lg px-6 shadow-2xl">
+            <Image 
+              src="/logo.png" 
+              alt="LB Logo" 
+              fill
+              sizes="160px"
+              className="object-contain p-2"
+              priority
+            />
+          </div>
+        </div>
 
       {/* Navigation */}
-      <nav className="flex-1 space-y-1 px-3">
+      <nav className="flex-1 space-y-3 px-2 lg:px-3 overflow-y-auto lg:overflow-visible lg:overflow-y-hidden hide-scrollbar">
         {navigation.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -57,43 +100,47 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`flex items-center gap-4 px-3 py-3 rounded-full transition-colors ${
+              onClick={closeMobileMenu}
+              className={`flex items-center gap-2.5 lg:gap-4 px-2.5 lg:px-3 py-2 lg:py-2.5 rounded-full transition-colors ${
                 isActive
                   ? 'bg-white/20 text-white'
                   : 'text-white/90 hover:text-white hover:bg-white/10'
               }`}
             >
-              <Icon className="w-5 h-5" />
-              <span className="text-[15px] font-medium">{item.name}</span>
+              <Icon className="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" />
+              <span className="text-sm lg:text-[15px] font-medium">{item.name}</span>
             </Link>
           );
         })}
       </nav>
 
       {/* User Section */}
-      <div className="mt-10 bg-black/10 rounded-lg mx-3 p-4 ">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-[#00a655] to-[#008c47] rounded-full flex items-center justify-center">
-            <span className="text-white text-sm font-bold">
+      <div className="mt-auto lg:mt-4 bg-black/10 rounded-lg mx-4 lg:mx-3 p-2.5 lg:p-3 flex-shrink-0">
+        <div className="flex items-center gap-2 lg:gap-2.5 mb-2 lg:mb-2.5">
+          <div className="w-6 h-6 lg:w-8 lg:h-8 bg-gradient-to-br from-[#00a655] to-[#008c47] rounded-full flex items-center justify-center flex-shrink-0">
+            <span className="text-white text-[10px] lg:text-sm font-bold">
               {user?.name?.charAt(0) || 'U'}
             </span>
           </div>
-          <div>
-            <h3 className="text-white font-bold text-sm">{user?.name || 'User'}</h3>
-            <p className="text-xs text-white/80">{user?.department || user?.role || 'Member'}</p>
+          <div className="min-w-0 flex-1">
+            <h3 className="text-white font-bold text-[11px] lg:text-sm truncate">{user?.name || 'User'}</h3>
+            <p className="text-[9px] lg:text-xs text-white/80 truncate">{user?.department || user?.role || 'Member'}</p>
           </div>
         </div>
         <button 
-          onClick={logout}
-          className="w-full bg-gradient-to-br from-[#FF6B6B] to-[#E55353] rounded-lg text-white py-2.5 text-xs font-bold shadow-lg hover:shadow-xl transition-all  flex items-center justify-center gap-2"
+          onClick={() => {
+            closeMobileMenu();
+            logout();
+          }}
+          className="w-full bg-gradient-to-br from-[#FF6B6B] to-[#E55353] rounded-lg text-white py-1.5 lg:py-2 text-[10px] lg:text-xs font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-1.5 lg:gap-2"
         >
-          <LogOut className="w-4 h-4 " />
+          <LogOut className="w-3 h-3 lg:w-4 lg:h-4" />
           Logout
         </button>
         
-        {/* Illustration */}
-        <div className="flex justify-center">
-          <svg className="w-28 h-28" viewBox="0 0 100 100" fill="none">
+        {/* Illustration - Hidden on desktop to save space, smaller on mobile */}
+        <div className="flex justify-center lg:hidden mt-1.5">
+          <svg className="w-16 h-16" viewBox="0 0 100 100" fill="none">
             {/* Person sitting */}
             <g>
               {/* Shadow */}
@@ -127,6 +174,7 @@ export default function Sidebar() {
         </div>
       </div>
     </aside>
+    </>
   );
 }
 
