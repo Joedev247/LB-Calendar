@@ -99,7 +99,7 @@ export default function Calendar() {
               <button
                 onClick={() => setView('month')}
                 className={`p-1.5 rounded-md transition-colors ${
-                  view === 'month' ? 'bg-white shadow-sm text-[#5D4C8E]' : 'text-gray-500 hover:bg-gray-200'
+                  view === 'month' ? 'bg-white shadow-sm text-[#00bf63]' : 'text-gray-500 hover:bg-gray-200'
                 }`}
                 title="Month View"
               >
@@ -108,7 +108,7 @@ export default function Calendar() {
               <button
                 onClick={() => setView('week')}
                 className={`p-1.5 rounded-md transition-colors ${
-                  view === 'week' ? 'bg-white shadow-sm text-[#5D4C8E]' : 'text-gray-500 hover:bg-gray-200'
+                  view === 'week' ? 'bg-white shadow-sm text-[#00bf63]' : 'text-gray-500 hover:bg-gray-200'
                 }`}
                 title="Week View"
               >
@@ -118,7 +118,7 @@ export default function Calendar() {
 
             <button
               onClick={() => handleDateClick(new Date())}
-              className="p-2 bg-[#5D4C8E] text-white rounded-md hover:bg-[#4a3a6e] transition-colors flex items-center gap-2"
+              className="p-2 bg-[#00bf63] text-white rounded-md hover:bg-[#008c47] transition-colors flex items-center gap-2"
               title="Add Event"
             >
               <Plus className="w-4 h-4" />
@@ -154,7 +154,7 @@ export default function Calendar() {
                 className={`relative group transition-all duration-200 ${
                   isCurrentMonth ? 'bg-white' : 'bg-gray-50'
                 } rounded-lg border border-transparent ${
-                  isHovered ? 'border-[#5D4C8E]' : ''
+                  isHovered ? 'border-[#00bf63]' : ''
                 }`}
                 onMouseEnter={() => setHoveredDate(day)}
                 onMouseLeave={() => setHoveredDate(null)}
@@ -167,7 +167,7 @@ export default function Calendar() {
                     absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-full text-[13px] font-medium
                     ${!isCurrentMonth ? 'text-gray-400' : ''}
                     ${isToday ? 'bg-gradient-to-br from-[#FFB76B] to-[#FFA043] text-white shadow-lg' : ''}
-                    ${isSelected && !isToday ? 'bg-[#5D4C8E] text-white' : ''}
+                    ${isSelected && !isToday ? 'bg-[#00bf63] text-white' : ''}
                     ${isCurrentMonth && !isToday && !isSelected ? 'text-gray-700' : ''}
                     transition-all duration-200
                   `}>
@@ -194,8 +194,8 @@ export default function Calendar() {
                         onMouseLeave={() => setEventPreview(null)}
                         className="text-left px-2 py-1 text-[11px] rounded bg-opacity-20 cursor-pointer transition-all duration-200 truncate"
                         style={{ 
-                          backgroundColor: `${event.project_color || '#5D4C8E'}20`,
-                          color: event.project_color || '#5D4C8E',
+                          backgroundColor: `${event.project_color || '#00bf63'}20`,
+                          color: event.project_color || '#00bf63',
                         }}
                       >
                         {event.title}
@@ -226,7 +226,7 @@ export default function Calendar() {
               <div className="flex items-center gap-2">
                 <div
                   className="w-2 h-2 rounded-full"
-                  style={{ backgroundColor: eventPreview.event.project_color || '#5D4C8E' }}
+                  style={{ backgroundColor: eventPreview.event.project_color || '#00bf63' }}
                 />
                 <span className="font-medium">{eventPreview.event.title}</span>
               </div>

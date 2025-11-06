@@ -23,11 +23,6 @@ export default function Dashboard() {
 
   const pendingTasks = tasks.filter(task => !task.completed);
   const completedTasks = tasks.filter(task => task.completed);
-  
-  // Debug logging
-  console.log('Dashboard - Total tasks:', tasks.length);
-  console.log('Dashboard - Pending tasks:', pendingTasks.length);
-  console.log('Dashboard - Completed tasks:', completedTasks.length);
   const todayEvents = events.filter(event => {
     const eventDate = new Date(event.start_date);
     const today = new Date();
@@ -48,7 +43,7 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[#5f4b8b] to-[#4a3a6e] overflow-hidden">
+    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[#00bf63] to-[#008c47] overflow-hidden animate-page-fade-in">
       {/* Main Container */}
       <div className="flex w-full max-h-screen">
         {/* Sidebar Component */}
@@ -70,7 +65,7 @@ export default function Dashboard() {
                   onClick={() => setActiveTab('overview')}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     activeTab === 'overview'
-                      ? 'bg-[#5D4C8E] text-white'
+                      ? 'bg-[#00bf63] text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
@@ -80,7 +75,7 @@ export default function Dashboard() {
                   onClick={() => setActiveTab('calendar')}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     activeTab === 'calendar'
-                      ? 'bg-[#5D4C8E] text-white'
+                      ? 'bg-[#00bf63] text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
@@ -90,7 +85,7 @@ export default function Dashboard() {
                   onClick={() => setActiveTab('tasks')}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     activeTab === 'tasks'
-                      ? 'bg-[#5D4C8E] text-white'
+                      ? 'bg-[#00bf63] text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
@@ -103,7 +98,7 @@ export default function Dashboard() {
               <>
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                  <div className="bg-gradient-to-br from-[#B7AED6] to-[#8B7FB1] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                  <div className="bg-gradient-to-br from-[#66e1ab] to-[#33d78f] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 animate-card-fade-in" style={{ animationDelay: '0.1s' }}>
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="text-sm font-semibold text-white mb-2">Total Projects</h3>
@@ -114,7 +109,7 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-br from-[#5f4b8b] to-[#4a3a6e] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                  <div className="bg-gradient-to-br from-[#00bf63] to-[#00a655] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 animate-card-fade-in" style={{ animationDelay: '0.2s' }}>
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="text-sm font-semibold text-white/90 mb-2">Today's Events</h3>
@@ -125,7 +120,7 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-br from-[#9985C7] to-[#7B68AD] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                  <div className="bg-gradient-to-br from-[#00a655] to-[#008c47] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 animate-card-fade-in" style={{ animationDelay: '0.3s' }}>
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="text-sm font-semibold text-white mb-2">Pending Tasks</h3>
@@ -136,7 +131,7 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-br from-[#FF6B6B] to-[#E55353] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                  <div className="bg-gradient-to-br from-[#FF6B6B] to-[#E55353] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 animate-card-fade-in" style={{ animationDelay: '0.4s' }}>
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="text-sm font-semibold text-white mb-2">Overdue Tasks</h3>
@@ -150,7 +145,7 @@ export default function Dashboard() {
 
                 {/* Additional Stats Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div className="bg-gradient-to-br from-[#4ECDC4] to-[#44A08D] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                  <div className="bg-gradient-to-br from-[#4ECDC4] to-[#44A08D] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 animate-card-fade-in" style={{ animationDelay: '0.5s' }}>
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="text-sm font-semibold text-white mb-2">Completed Tasks</h3>
@@ -161,7 +156,7 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-br from-[#FFA726] to-[#FF9800] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                  <div className="bg-gradient-to-br from-[#FFA726] to-[#FF9800] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 animate-card-fade-in" style={{ animationDelay: '0.6s' }}>
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="text-sm font-semibold text-white mb-2">Upcoming Events</h3>
@@ -197,10 +192,10 @@ export default function Dashboard() {
                   <div className="bg-white border border-[#E9E5F0] rounded-lg shadow-sm">
                     <div className="p-6 border-b border-[#E9E5F0]">
                       <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold text-[#5D4C8E]">Tasks</h3>
+                        <h3 className="text-lg font-semibold text-[#00bf63]">Tasks</h3>
                         <button
                           onClick={() => setActiveTab('tasks')}
-                          className="text-sm text-[#5D4C8E] hover:underline"
+                          className="text-sm text-[#00bf63] hover:underline"
                         >
                           View All Tasks
                         </button>
@@ -214,11 +209,11 @@ export default function Dashboard() {
 
                 {/* Quick Actions */}
                 <div className="mt-8 bg-gradient-to-br from-[#F3F0F9] to-white p-6 rounded-lg border border-[#E9E5F0] shadow-sm">
-                  <h3 className="text-lg font-semibold text-[#5D4C8E] mb-4">Quick Actions</h3>
+                  <h3 className="text-lg font-semibold text-[#00bf63] mb-4">Quick Actions</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <button
                       onClick={() => setIsProjectModalOpen(true)}
-                      className="flex items-center gap-3 p-4 text-left bg-white hover:bg-[#5D4C8E] hover:text-white transition-all duration-300 rounded-lg shadow-sm "
+                      className="flex items-center gap-3 p-4 text-left bg-white hover:bg-[#00bf63] hover:text-white transition-all duration-300 rounded-lg shadow-sm "
                     >
                       <Plus className="w-5 h-5" />
                       <div>
@@ -228,7 +223,7 @@ export default function Dashboard() {
                     </button>
                     <button
                       onClick={() => setActiveTab('calendar')}
-                      className="flex items-center gap-3 p-4 text-left bg-white hover:bg-[#5D4C8E] hover:text-white transition-all duration-300 rounded-lg shadow-sm "
+                      className="flex items-center gap-3 p-4 text-left bg-white hover:bg-[#00bf63] hover:text-white transition-all duration-300 rounded-lg shadow-sm "
                     >
                       <CalendarIcon className="w-5 h-5" />
                       <div>
@@ -271,6 +266,17 @@ export default function Dashboard() {
         isOpen={isProjectModalOpen}
         onClose={() => setIsProjectModalOpen(false)}
       />
+
+      {/* Animations */}
+      <style jsx>{`
+        .animate-page-fade-in {
+          animation: pageFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes pageFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
     </div>
   );
 }

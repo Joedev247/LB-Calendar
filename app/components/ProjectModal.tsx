@@ -20,7 +20,7 @@ interface ProjectFormData {
 }
 
 const colorOptions = [
-  { name: 'Purple', value: '#5D4C8E' },
+  { name: 'Purple', value: '#00bf63' },
   { name: 'Blue', value: '#3B82F6' },
   { name: 'Green', value: '#10B981' },
   { name: 'Orange', value: '#F59E0B' },
@@ -49,14 +49,14 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
       reset({
         name: project.name || '',
         description: project.description || '',
-        color: project.color || '#5D4C8E',
+        color: project.color || '#00bf63',
         status: project.status || 'active'
       });
     } else {
       reset({
         name: '',
         description: '',
-        color: '#5D4C8E',
+        color: '#00bf63',
         status: 'active'
       });
     }
@@ -95,7 +95,7 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
           <input
             type="text"
             {...register('name', { required: 'Project name is required' })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5D4C8E] focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00bf63] focus:border-transparent"
             placeholder="Enter project name"
           />
           {errors.name && (
@@ -112,7 +112,7 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
           <textarea
             {...register('description')}
             rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5D4C8E] focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00bf63] focus:border-transparent"
             placeholder="Enter project description"
           />
         </div>
@@ -151,7 +151,7 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
           </label>
           <select
             {...register('status')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5D4C8E] focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00bf63] focus:border-transparent"
           >
             <option value="active">Active</option>
             <option value="completed">Completed</option>
@@ -175,14 +175,14 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5D4C8E]"
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00bf63]"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-4 py-2 text-sm font-medium text-white bg-[#5D4C8E] border border-transparent rounded-md hover:bg-[#4a3a6e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5D4C8E] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 text-sm font-medium text-white bg-[#00bf63] border border-transparent rounded-md hover:bg-[#008c47] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00bf63] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Saving...' : (project ? 'Update Project' : 'Create Project')}
           </button>

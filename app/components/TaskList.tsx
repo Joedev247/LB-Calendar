@@ -92,7 +92,7 @@ export default function TaskList() {
           className="p-1.5 hover:bg-gray-50 transition-colors"
           title="Add Task"
         >
-          <Plus className="w-5 h-5 text-[#5D4C8E]" />
+          <Plus className="w-5 h-5 text-[#00bf63]" />
         </button>
       </div>
 
@@ -109,7 +109,7 @@ export default function TaskList() {
             onClick={() => setFilter(tab.key as any)}
             className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
               filter === tab.key
-                ? 'bg-[#5D4C8E] text-white'
+                ? 'bg-[#00bf63] text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
@@ -131,7 +131,7 @@ export default function TaskList() {
               type="checkbox" 
               checked={task.completed}
                 onChange={() => handleToggleTask(task.id)}
-              className="w-[17px] h-[17px] rounded-[4px] border-2 border-gray-300 text-[#5D4C8E] focus:ring-[#5D4C8E] focus:ring-offset-0 cursor-pointer"
+              className="w-[17px] h-[17px] rounded-[4px] border-2 border-gray-300 text-[#00bf63] focus:ring-[#00bf63] focus:ring-offset-0 cursor-pointer"
             />
               <div className="flex-1 min-w-0">
                 <p className={`text-[14px] font-medium ${task.completed ? 'line-through text-gray-500' : 'text-gray-700'}`}>

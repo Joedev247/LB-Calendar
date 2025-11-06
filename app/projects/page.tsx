@@ -85,7 +85,7 @@ export default function ProjectsPage() {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[#5f4b8b] to-[#4a3a6e] overflow-hidden">
+    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[#00bf63] to-[#008c47] overflow-hidden animate-page-fade-in">
       {/* Main Container */}
       <div className="flex w-full max-h-screen">
         {/* Sidebar Component */}
@@ -105,7 +105,7 @@ export default function ProjectsPage() {
                   setEditingProject(null);
                   setIsProjectModalOpen(true);
                 }}
-                className="flex items-center gap-2 px-4 py-2 bg-[#5D4C8E] text-white rounded-lg hover:bg-[#4a3a6e] transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-[#00bf63] text-white rounded-lg hover:bg-[#008c47] transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 Create Project
@@ -125,7 +125,7 @@ export default function ProjectsPage() {
                   onClick={() => setFilter(tab.key as any)}
                   className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                     filter === tab.key
-                      ? 'bg-[#5D4C8E] text-white'
+                      ? 'bg-[#00bf63] text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
@@ -138,15 +138,15 @@ export default function ProjectsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProjects.length === 0 ? (
                 <div className="col-span-full text-center py-12 text-gray-500">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#5D4C8E' }}>
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#00bf63' }}>
                     <Plus className="w-8 h-8 text-white" />
                   </div>
                   <p className="text-lg font-medium">No projects found</p>
                   <p className="text-sm">Create your first project to get started</p>
                 </div>
               ) : (
-                filteredProjects.map((project) => (
-                  <div key={project.id} className="bg-white border border-[#E9E5F0] rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                filteredProjects.map((project, index) => (
+                  <div key={project.id} className="bg-white border border-[#E9E5F0] rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow animate-card-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <div 
@@ -161,14 +161,14 @@ export default function ProjectsPage() {
                             setSelectedProject(project);
                             setIsProjectDetailsOpen(true);
                           }}
-                          className="p-1 text-gray-400 hover:text-[#5D4C8E] hover:bg-gray-100 rounded transition-colors"
+                          className="p-1 text-gray-400 hover:text-[#00bf63] hover:bg-gray-100 rounded transition-colors"
                           title="View Project Details"
                         >
                           <Eye className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleEditProject(project)}
-                          className="p-1 text-gray-400 hover:text-[#5D4C8E] hover:bg-gray-100 rounded transition-colors"
+                          className="p-1 text-gray-400 hover:text-[#00bf63] hover:bg-gray-100 rounded transition-colors"
                           title="Edit Project"
                         >
                           <Edit className="w-4 h-4" />

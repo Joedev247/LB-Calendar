@@ -42,8 +42,8 @@ api.interceptors.response.use(
 export const authAPI = {
   login: (email: string, password: string) =>
     api.post('/auth/login', { email, password }),
-  register: (email: string, password: string, name: string) =>
-    api.post('/auth/register', { email, password, name }),
+  register: (email: string, password: string, name: string, department?: string) =>
+    api.post('/auth/register', { email, password, name, department }),
   getMe: () => api.get('/auth/me'),
   getOAuthAuthorizeUrl: () => api.get('/auth/oauth/authorize'),
 };
@@ -94,12 +94,26 @@ export const usersAPI = {
 
 // Chat API
 export const chatAPI = {
+  // General team chat
+  getTeamMessages: (params?: any) => 
+    api.get('/chat/team', { params }),
+  sendTeamMessage: (message: string) => 
+    api.post('/chat/team', { message }),
+  // Project chat
   getMessages: (projectId: number, params?: any) => 
     api.get(`/chat/${projectId}`, { params }),
   sendMessage: (projectId: number, message: string) => 
     api.post(`/chat/${projectId}`, { message }),
   deleteMessage: (projectId: number, messageId: number) => 
     api.delete(`/chat/${projectId}/${messageId}`),
+};
+
+export const notificationsAPI = {
+  getAll: (params?: any) => api.get('/notifications', { params }),
+  getUnreadCount: () => api.get('/notifications/unread-count'),
+  markAsRead: (id: string) => api.patch(`/notifications/${id}/read`),
+  markAllAsRead: () => api.patch('/notifications/read-all'),
+  delete: (id: string) => api.delete(`/notifications/${id}`),
 };
 
 export default api;

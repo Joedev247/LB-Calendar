@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useApp } from '../../lib/context';
 import { 
@@ -12,7 +13,8 @@ import {
   CheckSquare, 
   MessageSquare, 
   Settings,
-  LogOut
+  LogOut,
+  Users
 } from 'lucide-react';
 
 export default function Sidebar() {
@@ -25,20 +27,24 @@ export default function Sidebar() {
     { name: 'Projects', href: '/projects', icon: FolderOpen },
     { name: 'Events', href: '/events', icon: CalendarDays },
     { name: 'Tasks', href: '/tasks', icon: CheckSquare },
+    { name: 'Members', href: '/members', icon: Users },
     { name: 'Team Chat', href: '/team-chat', icon: MessageSquare },
     { name: 'Settings', href: '/settings', icon: Settings },
   ];
 
   return (
-    <aside className="w-[230px] flex flex-col py-6 text-white bg-gradient-to-b from-[#5f4b8b] to-[#4a3a6e]">
+    <aside className="w-[230px] flex flex-col py-6 text-white bg-gradient-to-b from-[#00bf63] to-[#008c47]">
       {/* Logo */}
-      <div className="mb-10 flex items-center gap-2.5 px-6">
-        <div className="w-8 h-8 bg-gradient-to-br from-[#ff9a56] to-[#ff6b6b] rounded-full flex items-center justify-center">
-          <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 2L3 6v5c0 5 7 8 7 8s7-3 7-8V6l-7-4z"/>
-          </svg>
+      <div className="mb-10 flex items-center justify-center">
+        <div className="relative w-50 h-20 flex-shrink-0 bg-black/30 backdrop-blur-sm rounded-lg px-7 shadow-2xl">
+          <Image 
+            src="/logo.png" 
+            alt="LB Logo" 
+            fill
+            className="object-contain p-3"
+            priority
+          />
         </div>
-        <span className="text-lg font-semibold">LB Calendar</span>
       </div>
 
       {/* Navigation */}
@@ -65,23 +71,23 @@ export default function Sidebar() {
       </nav>
 
       {/* User Section */}
-      <div className="mt-30 bg-[#4A3A6E] mx-3 p-4 ">
+      <div className="mt-10 bg-black/10 rounded-lg mx-3 p-4 ">
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-[#FFA756] to-[#FF8542] rounded-full flex items-center justify-center">
+          <div className="w-8 h-8 bg-gradient-to-br from-[#00a655] to-[#008c47] rounded-full flex items-center justify-center">
             <span className="text-white text-sm font-bold">
               {user?.name?.charAt(0) || 'U'}
             </span>
           </div>
           <div>
             <h3 className="text-white font-bold text-sm">{user?.name || 'User'}</h3>
-            <p className="text-xs text-white/80">{user?.role || 'Member'}</p>
+            <p className="text-xs text-white/80">{user?.department || user?.role || 'Member'}</p>
           </div>
         </div>
         <button 
           onClick={logout}
-          className="w-full bg-gradient-to-r from-[#FFA756] to-[#FF8542] rounded-lg text-white py-2.5 text-xs font-bold shadow-lg hover:shadow-xl transition-all  flex items-center justify-center gap-2"
+          className="w-full bg-gradient-to-br from-[#FF6B6B] to-[#E55353] rounded-lg text-white py-2.5 text-xs font-bold shadow-lg hover:shadow-xl transition-all  flex items-center justify-center gap-2"
         >
-          <LogOut className="w-4 h-4" />
+          <LogOut className="w-4 h-4 " />
           Logout
         </button>
         
@@ -98,7 +104,7 @@ export default function Sidebar() {
               <rect x="52" y="60" width="8" height="22" rx="4" fill="#6B5A9C"/>
               
               {/* Body */}
-              <rect x="38" y="40" width="24" height="24" rx="3" fill="#FFA756"/>
+              <rect x="38" y="40" width="24" height="24" rx="3" fill="#00a655"/>
               
               {/* Arms */}
               <rect x="30" y="45" width="8" height="16" rx="4" fill="#D4A574"/>

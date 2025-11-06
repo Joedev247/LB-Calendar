@@ -47,7 +47,7 @@ export default function CalendarPage() {
   });
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[#5f4b8b] to-[#4a3a6e] overflow-hidden">
+    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[#00bf63] to-[#008c47] overflow-hidden animate-page-fade-in">
       {/* Main Container */}
       <div className="flex w-full max-h-screen">
         {/* Sidebar Component */}
@@ -64,7 +64,7 @@ export default function CalendarPage() {
               <h1 className="text-2xl font-bold text-[#2D2D2D]">Calendar</h1>
               <button
                 onClick={() => setIsEventModalOpen(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-[#5D4C8E] rounded-lg text-white text-sm font-medium hover:bg-[#4a3a6e] transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-[#00bf63] rounded-lg text-white text-sm font-medium hover:bg-[#008c47] transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 New Event
@@ -90,14 +90,14 @@ export default function CalendarPage() {
                     </h3>
                     <button
                       onClick={() => setIsEventModalOpen(true)}
-                      className="p-1.5 hover:bg-gray-50 transition-colors text-[#5D4C8E]"
+                      className="p-1.5 hover:bg-gray-50 transition-colors text-[#00bf63]"
                     >
                       <Plus className="w-5 h-5" />
                     </button>
                   </div>
                   <div className="space-y-2 text-sm text-gray-500">
                     <p>Click the + button to quickly add:</p>
-                    <div className="flex items-center gap-2 text-[#5D4C8E]">
+                    <div className="flex items-center gap-2 text-[#00bf63]">
                       <CalendarIcon className="w-4 h-4" /> Events
                     </div>
                   </div>
@@ -119,7 +119,7 @@ export default function CalendarPage() {
                           key={event.id}
                           className="flex items-start gap-3 p-2 hover:bg-gray-50 transition-colors rounded-sm"
                         >
-                          <Clock className="w-4 h-4 text-[#5D4C8E] mt-0.5" />
+                          <Clock className="w-4 h-4 text-[#00bf63] mt-0.5" />
                           <div>
                             <p className="text-sm font-medium text-gray-800">
                               {event.title}
@@ -151,7 +151,7 @@ export default function CalendarPage() {
                           key={task.id}
                           className="flex items-start gap-3 p-2 hover:bg-gray-50 transition-colors rounded-sm"
                         >
-                          <CheckSquare className="w-4 h-4 text-[#5D4C8E] mt-0.5" />
+                          <CheckSquare className="w-4 h-4 text-[#00bf63] mt-0.5" />
                           <div>
                             <p className="text-sm font-medium text-gray-800">
                               {task.title}

@@ -34,7 +34,7 @@ export default function Modal({
     <div className="fixed inset-0 z-50 overflow-hidden">
       {/* Backdrop */}
       <div 
-        className={`fixed inset-0 bg-black transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black transition-opacity duration-300 animate-modal-backdrop ${
           isOpen ? 'opacity-50' : 'opacity-0'
         }`}
         onClick={onClose}
@@ -43,7 +43,7 @@ export default function Modal({
       {/* Modal */}
       <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
         <div className={clsx(
-          'relative w-full transform overflow-hidden bg-white rounded-tl-4xl rounded-bl-4xl shadow-xl transition-all duration-300 ease-out',
+          'relative w-full h-screen transform overflow-hidden bg-white rounded-tl-4xl rounded-bl-4xl shadow-xl transition-all duration-300 ease-out animate-modal-slide-in flex flex-col',
           sizeClasses[size],
           className,
           isOpen 
@@ -51,7 +51,7 @@ export default function Modal({
             : 'translate-x-full'
         )}>
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+          <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4 animate-fade-in-up flex-shrink-0">
             <h3 className="text-lg font-semibold text-gray-900">
               {title}
             </h3>
@@ -64,7 +64,7 @@ export default function Modal({
           </div>
           
           {/* Content */}
-          <div className="px-6 py-4">
+          <div className="flex-1 flex flex-col min-h-0 px-6 py-4 animate-fade-in-up-delay overflow-hidden">
             {children}
           </div>
         </div>
@@ -72,4 +72,3 @@ export default function Modal({
     </div>
   );
 }
-X

@@ -1,17 +1,21 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Calendar, Clock, MapPin, Tag } from 'lucide-react';
+import { Plus, Edit, Trash2, Calendar, Clock, MapPin, Tag, Eye } from 'lucide-react';
 import { format, isToday, isTomorrow, isYesterday } from 'date-fns';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import EventModal from '../components/EventModal';
+import EventDetails from '../components/EventDetails';
 import { useApp } from '../../lib/context';
+import { eventsAPI } from '../../lib/api';
 
 export default function EventsPage() {
   const { events, loadEvents, deleteEvent } = useApp();
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState<any>(null);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+  const [isEventDetailsOpen, setIsEventDetailsOpen] = useState(false);
   const [filter, setFilter] = useState<'all' | 'today' | 'upcoming' | 'past'>('all');
 
   useEffect(() => {
@@ -35,12 +39,29 @@ export default function EventsPage() {
     }
   });
 
-  const handleEditEvent = (event: any) => {
+  const handleViewEvent = async (event: any) => {
+    try {
+      // Fetch full event details
+      const response = await eventsAPI.getById(event.id);
+      setSelectedEvent(response.data);
+      setIsEventDetailsOpen(true);
+    } catch (error) {
+      console.error('Error fetching event details:', error);
+    }
+  };
+
+  const handleEditEvent = (event: any, e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+    }
     setEditingEvent(event);
     setIsEventModalOpen(true);
   };
 
-  const handleDeleteEvent = async (eventId: number) => {
+  const handleDeleteEvent = async (eventId: number, e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+    }
     if (window.confirm('Are you sure you want to delete this event?')) {
       try {
         await deleteEvent(eventId);
@@ -63,7 +84,7 @@ export default function EventsPage() {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[#5f4b8b] to-[#4a3a6e] overflow-hidden">
+    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[#00bf63] to-[#008c47] overflow-hidden animate-page-fade-in">
       {/* Main Container */}
       <div className="flex w-full max-h-screen">
         {/* Sidebar Component */}
@@ -83,7 +104,7 @@ export default function EventsPage() {
                   setEditingEvent(null);
                   setIsEventModalOpen(true);
                 }}
-                className="flex items-center gap-2 px-4 py-2 bg-[#5D4C8E] text-white rounded-lg hover:bg-[#4a3a6e] transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-[#00bf63] text-white rounded-lg hover:bg-[#008c47] transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 Add Event
@@ -103,7 +124,7 @@ export default function EventsPage() {
                   onClick={() => setFilter(tab.key as any)}
                   className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                     filter === tab.key
-                      ? 'bg-[#5D4C8E] text-white'
+                      ? 'bg-[#00bf63] text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
@@ -121,8 +142,13 @@ export default function EventsPage() {
                   <p className="text-sm">Create your first event to get started</p>
                 </div>
               ) : (
-                filteredEvents.map((event) => (
-                  <div key={event.id} className="bg-white border border-[#E9E5F0] rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                filteredEvents.map((event, index) => (
+                  <div 
+                    key={event.id} 
+                    onClick={() => handleViewEvent(event)}
+                    className="bg-white border border-[#E9E5F0] rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer animate-card-fade-in" 
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
@@ -130,7 +156,7 @@ export default function EventsPage() {
                           {event.project_name && (
                             <span 
                               className="px-2 py-1 rounded-full text-xs font-medium text-white"
-                              style={{ backgroundColor: event.project_color || '#5D4C8E' }}
+                              style={{ backgroundColor: event.project_color || '#00bf63' }}
                             >
                               {event.project_name}
                             </span>
@@ -165,17 +191,27 @@ export default function EventsPage() {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2 ml-4">
+                      <div className="flex items-center gap-2 ml-4 flex-shrink-0">
                         <button
-                          onClick={() => handleEditEvent(event)}
-                          className="p-2 text-gray-400 hover:text-[#5D4C8E] hover:bg-gray-100  transition-colors"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleViewEvent(event);
+                          }}
+                          className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                          title="View Event Details"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={(e) => handleEditEvent(event, e)}
+                          className="p-2 text-gray-400 hover:text-[#00bf63] hover:bg-gray-100 rounded transition-colors"
                           title="Edit Event"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => handleDeleteEvent(event.id)}
-                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50  transition-colors"
+                          onClick={(e) => handleDeleteEvent(event.id, e)}
+                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
                           title="Delete Event"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -198,6 +234,16 @@ export default function EventsPage() {
           setEditingEvent(null);
         }}
         event={editingEvent}
+      />
+
+      {/* Event Details Modal */}
+      <EventDetails
+        isOpen={isEventDetailsOpen}
+        onClose={() => {
+          setIsEventDetailsOpen(false);
+          setSelectedEvent(null);
+        }}
+        event={selectedEvent}
       />
     </div>
   );

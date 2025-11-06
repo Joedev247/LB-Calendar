@@ -10,6 +10,7 @@ interface User {
   email: string;
   name: string;
   role: string;
+  department?: string;
   avatar_url?: string;
 }
 
@@ -21,11 +22,24 @@ interface Event {
   end_date: string;
   all_day: boolean;
   location?: string;
+  is_online?: boolean;
+  online_platform?: string;
   project_id?: number;
   project_name?: string;
   project_color?: string;
   created_by: number;
   created_by_name?: string;
+  created_by_email?: string;
+  created_at?: string;
+  updated_at?: string;
+  hosts?: Array<{
+    id?: number;
+    user_id?: number;
+    name: string;
+    email: string;
+    role: string;
+    is_external?: boolean;
+  }>;
 }
 
 interface Task {
@@ -35,13 +49,19 @@ interface Task {
   due_date?: string;
   completed: boolean;
   priority: 'low' | 'medium' | 'high';
+  status?: 'pending' | 'in_progress' | 'completed';
   project_id?: number;
   project_name?: string;
   project_color?: string;
   assigned_to?: number;
   assigned_to_name?: string;
+  assigned_users?: number[];
+  assigned_users_names?: Array<{ id: number; name: string; email: string }>;
   created_by: number;
   created_by_name?: string;
+  created_by_email?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 interface Project {
@@ -170,7 +190,7 @@ function appReducer(state: AppState, action: AppAction): AppState {
 
 interface AppContextType extends AppState {
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name: string) => Promise<void>;
+  register: (email: string, password: string, name: string, department?: string) => Promise<void>;
   loginWithOAuth: () => Promise<void>;
   handleOAuthCallback: (token: string, email: string) => Promise<void>;
   logout: () => void;
@@ -238,10 +258,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const register = async (email: string, password: string, name: string) => {
+  const register = async (email: string, password: string, name: string, department?: string) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-      const response = await authAPI.register(email, password, name);
+      const response = await authAPI.register(email, password, name, department);
       const { token, user } = response.data;
       
       localStorage.setItem('token', token);
