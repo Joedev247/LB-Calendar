@@ -158,7 +158,7 @@ export default function EventDetails({ isOpen, onClose, event }: EventDetailsPro
                         <div className="min-w-0 flex-1">
                           <p className="text-[9px] text-gray-500 font-medium">Online Platform</p>
                           <p className="text-[10px] font-semibold text-gray-900 truncate">
-                            {event.online_platform ? event.online_platform.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Online'}
+                            {event.online_platform ? event.online_platform.replace('_', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()) : 'Online'}
                           </p>
                         </div>
                       </div>
